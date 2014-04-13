@@ -39,5 +39,15 @@ describe AssetPackager::Processor do
 
     include_examples 'remote URIs', 'http://foo.bar/baz'
     include_examples 'remote URIs', 'https://foo.bar/baz'
+    include_examples 'remote URIs', '//foo.bar/baz'
+
+    describe 'with an unrecognized protocol' do
+      let(:uri) { 'ftp://example.com' }
+
+      it 'should return nil' do
+        expect(Net::HTTP).to_not receive(:get)
+        expect(asset).to be_nil
+      end
+    end
   end
 end
