@@ -25,7 +25,8 @@ describe AssetPackager::Processor do
     end
 
     describe 'with a relative path' do
-      let(:uri) { fixture_pathname.relative_path_from(AssetPackager::ROOT).to_s }
+      let(:cwd) { super().join('spec/fixtures') }
+      let(:uri) { fixture_pathname.relative_path_from(cwd).to_s }
       include_examples 'local files'
     end
 
