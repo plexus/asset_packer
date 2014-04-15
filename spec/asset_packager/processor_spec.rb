@@ -1,9 +1,13 @@
 require 'spec_helper'
 
 describe AssetPackager::Processor do
-  let(:cwd) { AssetPackager::ROOT }
-  let(:processor) { AssetPackager::Processor.new(cwd) }
-  let(:fixture_pathname) { AssetPackager::ROOT.join 'spec/fixtures/section.css' }
+  with_fixture 'index.html', ['section.css']
+
+  let(:fixture_pathname) { directory.join 'section.css' }
+  subject(:processor)    { described_class.new(source_path) }
+
+  its(:name)      { should eq 'index' }
+  its(:directory) { should eq directory }
 
   describe '#retrieve_asset' do
     subject(:asset) { processor.retrieve_asset(uri) }
@@ -25,8 +29,7 @@ describe AssetPackager::Processor do
     end
 
     describe 'with a relative path' do
-      let(:cwd) { super().join('spec/fixtures') }
-      let(:uri) { fixture_pathname.relative_path_from(cwd).to_s }
+      let(:uri) { 'section.css' }
       include_examples 'local files'
     end
 
@@ -51,9 +54,4 @@ describe AssetPackager::Processor do
     end
   end
 
-  describe '#data_uri' do
-    it 'should create a base64 encoded data URI' do
-      expect(processor.data_uri(fixture_pathname.to_s)).to eq 'data:text/css;base64,c2VjdGlvbiB7IGNvbG9yOiBibHVlOyB9'
-    end
-  end
 end

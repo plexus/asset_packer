@@ -11,3 +11,4 @@ end
 
 require 'asset_packager/version'
 require 'asset_packager/processor'
+require 'asset_packager/processor/local'
