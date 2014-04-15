@@ -13,5 +13,5 @@ task :push => :gem do
 end
 
 task :mutant do
-  Mutant::CLI.run(%w[-Ilib -rasset_packager --use rspec AssetPackager*])
+  Mutant::CLI.run(%w[-Ilib -rasset_packager --use rspec --score 100 AssetPackager*])
 end
