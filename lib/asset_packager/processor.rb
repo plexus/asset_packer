@@ -15,5 +15,19 @@ module AssetPackager
         File.read(cwd.join(uri.path))
       end
     end
+
+    def data_uri(uri)
+      base64 = Base64.strict_encode64(retrieve_asset uri)
+      type   = MIME::Types.type_for(uri).first
+
+      "data:#{type};base64,#{base64}"
+    end
+
+    class StandAlone < self
+
+      class Image < self
+
+      end
+    end
   end
 end

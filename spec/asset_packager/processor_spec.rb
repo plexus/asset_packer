@@ -50,4 +50,10 @@ describe AssetPackager::Processor do
       end
     end
   end
+
+  describe '#data_uri' do
+    it 'should create a base64 encoded data URI' do
+      expect(processor.data_uri(fixture_pathname.to_s)).to eq 'data:text/css;base64,c2VjdGlvbiB7IGNvbG9yOiBibHVlOyB9'
+    end
+  end
 end

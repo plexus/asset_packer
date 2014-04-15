@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.extra_rdoc_files = %w[README.md LICENSE]
 
   gem.add_runtime_dependency 'hexp'       , '~> 0.3.2'
+  gem.add_runtime_dependency 'mime-types' , '~> 2.2'
 
   gem.add_development_dependency 'rake'         , '~> 10.2'
   gem.add_development_dependency 'rspec'        , '~> 2.14'

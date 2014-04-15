@@ -1,7 +1,9 @@
 require 'pathname'
 require 'net/http'
+require 'base64'
 
 require 'hexp'
+require 'mime/types'
 
 module AssetPackager
   ROOT = Pathname(__FILE__).dirname.parent
