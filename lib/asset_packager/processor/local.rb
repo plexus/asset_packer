@@ -7,8 +7,13 @@ module AssetPackager
         end
       end
 
-      # def save_asset(uri)
-      # end
+      def save_asset(uri, extension)
+        content = retrieve_asset(uri)
+        digest  = Digest::MD5.hexdigest(content)
+        target  = asset_dir.join(digest + '.' + extension)
+        File.write(target, content) unless target.exist?
+        target
+      end
 
       class Image < self
         # def call(doc)
