@@ -12,7 +12,7 @@ module AssetPackager
         digest  = Digest::MD5.hexdigest(content)
         target  = asset_dir.join(digest + '.' + extension)
         File.write(target, content) unless target.exist?
-        target
+        target.relative_path_from(directory)
       end
 
       class Image < self
@@ -29,6 +29,14 @@ module AssetPackager
         def call(doc)
           doc.replace('script[src]') do |script|
             script.attr(:src, save_asset(script[:src], 'js'))
+          end
+        end
+      end
+
+      class Stylesheet < self
+        def call(doc)
+          doc.replace('link[rel=stylesheet]') do |link|
+            link.attr(:href, save_asset(link[:href], 'css'))
           end
         end
       end

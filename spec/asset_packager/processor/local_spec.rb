@@ -21,7 +21,7 @@ describe AssetPackager::Processor::Local do
     let(:target_path) { local.asset_dir.join('4056951747637c9c22a635e09da36fea.css') }
 
     it 'should compute the path based on md5 digest and extension' do
-      expect(local.save_asset('section.css', 'css')).to eq target_path
+      expect(local.save_asset('section.css', 'css')).to eq Pathname('index_assets/4056951747637c9c22a635e09da36fea.css')
     end
 
     it "should retrieve the asset's content" do
@@ -31,7 +31,8 @@ describe AssetPackager::Processor::Local do
 
     it "should reuse existing assets with identical digest" do
       File.write(target_path, 'foobar')
-      expect(local.save_asset('section.css', 'css').read).to eq 'foobar'
+      local.save_asset('section.css', 'css')
+      expect(target_path.read).to eq 'foobar'
     end
   end
 end
