@@ -16,10 +16,21 @@ module AssetPackager
       end
 
       class Image < self
-        # def call(doc)
-        #   doc.replace('img') do |img|
-        #   end
-        # end
+        def call(doc)
+          doc.replace('img') do |img|
+            uri = img[:src]
+            extension = File.extname(uri).sub(/^\./, '')
+            img.attr(:src, save_asset(uri, extension))
+          end
+        end
+      end
+
+      class Script < self
+        def call(doc)
+          doc.replace('script[src]') do |script|
+            script.attr(:src, save_asset(script[:src], 'js'))
+          end
+        end
       end
     end
   end
