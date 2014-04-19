@@ -17,6 +17,9 @@ Gem::Specification.new do |gem|
   gem.test_files       = `git ls-files -- spec`.split($/)
   gem.extra_rdoc_files = %w[README.md LICENSE]
 
+  gem.bindir           = 'bin'
+  gem.executables      << 'asset_packager'
+
   gem.add_runtime_dependency 'hexp'       , '~> 0.3.3'
   gem.add_runtime_dependency 'mime-types' , '~> 2.2'
 
