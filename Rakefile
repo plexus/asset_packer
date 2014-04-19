@@ -12,7 +12,9 @@ task :push => :gem do
   sh "gem push pkg/asset_packager-#{AssetPackager::VERSION}.gem"
 end
 
+
 task :mutant do
-  result = Mutant::CLI.run(%w[-Ilib -rasset_packager --use rspec --score 100 AssetPackager*])
+  pattern = ENV.fetch('PATTERN', 'AssetPackager*')
+  result  = Mutant::CLI.run(%w[-Ilib -rasset_packager --use rspec --score 100] + [pattern])
   fail unless result == Mutant::CLI::EXIT_SUCCESS
 end
