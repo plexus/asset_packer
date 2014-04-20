@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AssetPackager::Processor do
+describe AssetPacker::Processor do
   with_fixture 'index.html', ['section.css']
 
   let(:fixture_pathname) { src_dir.join 'section.css' }
@@ -20,7 +20,7 @@ describe AssetPackager::Processor do
 
     context 'with a relative file name' do
       let(:subject)     { described_class.new('foo/bar.html', '/asset_dir', 'dest.html') }
-      its(:source_uri)  { should eq URI("file://#{AssetPackager::ROOT.join('foo/bar.html')}") }
+      its(:source_uri)  { should eq URI("file://#{AssetPacker::ROOT.join('foo/bar.html')}") }
     end
   end
 

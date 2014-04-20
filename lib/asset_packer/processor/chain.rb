@@ -1,4 +1,4 @@
-module AssetPackager
+module AssetPacker
   class Processor
     class Chain
       def initialize(processors)

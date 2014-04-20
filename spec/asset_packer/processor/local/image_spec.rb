@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AssetPackager::Processor::Local::Image, '#call' do
+describe AssetPacker::Processor::Local::Image, '#call' do
   with_fixture 'has_img.html', 'dummy.png' => 'images/dummy.png'
   let(:doc) { Hexp.parse(source_uri.read) }
 

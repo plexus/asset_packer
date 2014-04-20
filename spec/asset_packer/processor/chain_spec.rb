@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AssetPackager::Processor::Chain do
+describe AssetPacker::Processor::Chain do
   it 'should functionally compose' do
     chain = described_class.new([
         ->(x) { x + 1 },

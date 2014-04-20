@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AssetPackager::CLI do
+describe AssetPacker::CLI do
   describe '.run' do
     let(:cli) { double(run: nil) }
     let(:argv) { [] }
@@ -64,7 +64,7 @@ describe AssetPackager::CLI do
 
       it 'should display the help information' do
         expect { cli }.to raise_error {|error|
-          expect(error.message).to match /Usage: asset_packager/
+          expect(error.message).to match /Usage: asset_packer/
           expect(error.exit_code).to eq 0
         }
       end
@@ -75,7 +75,7 @@ describe AssetPackager::CLI do
 
       it 'should display the help information' do
         expect { cli }.to raise_error {|error|
-          expect(error.message).to match /asset_packager-\d+\.\d+\.\d+/
+          expect(error.message).to match /asset_packer-\d+\.\d+\.\d+/
           expect(error.exit_code).to eq 0
         }
       end
@@ -84,7 +84,7 @@ describe AssetPackager::CLI do
     shared_examples_for 'illegal arguments' do |argv|
       it 'should display the help information' do
         expect { described_class.create_from_args(argv) }.to raise_error {|error|
-          expect(error.message).to match /Usage: asset_packager/
+          expect(error.message).to match /Usage: asset_packer/
           expect(error.exit_code).to eq 1
         }
       end

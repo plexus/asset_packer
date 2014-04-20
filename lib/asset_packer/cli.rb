@@ -1,8 +1,8 @@
-# asset_packager file.html
-# asset_packager --standalone file.html
-# asset_packager --help
+# asset_packer file.html
+# asset_packer --standalone file.html
+# asset_packer --help
 
-module AssetPackager
+module AssetPacker
   class CLI
     EXIT_SUCCESS = 0
     EXIT_FAILURE = 1
@@ -36,9 +36,9 @@ module AssetPackager
 
     def self.create_from_args(argv)
       opts = OptionParser.new do |opts|
-        opts.banner = "Usage: asset_packager [options] input_file.html output_file.html"
-        opts.on('--version', 'Print asset_packagers version') do |name|
-          raise ExitEarly, "asset_packager-#{AssetPackager::VERSION}"
+        opts.banner = "Usage: asset_packer [options] input_file.html output_file.html"
+        opts.on('--version', 'Print asset_packers version') do |name|
+          raise ExitEarly, "asset_packer-#{AssetPacker::VERSION}"
         end.on('--help', 'Display help on command line usage') do
           raise ExitEarly, opts
         end

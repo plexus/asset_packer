@@ -1,10 +1,10 @@
-[![Gem Version](https://badge.fury.io/rb/asset_packager.png)][gem]
-[![Build Status](https://secure.travis-ci.org/plexus/asset_packager.png?branch=master)][travis]
-[![Code Climate](https://codeclimate.com/github/plexus/asset_packager.png)][codeclimate]
+[![Gem Version](https://badge.fury.io/rb/asset_packer.png)][gem]
+[![Build Status](https://secure.travis-ci.org/plexus/asset_packer.png?branch=master)][travis]
+[![Code Climate](https://codeclimate.com/github/plexus/asset_packer.png)][codeclimate]
 
-[gem]: https://rubygems.org/gems/asset_packager
-[travis]: https://travis-ci.org/plexus/asset_packager
-[codeclimate]: https://codeclimate.com/github/plexus/asset_packager
+[gem]: https://rubygems.org/gems/asset_packer
+[travis]: https://travis-ci.org/plexus/asset_packer
+[codeclimate]: https://codeclimate.com/github/plexus/asset_packer
 
 # Asset Packager
 
@@ -15,8 +15,8 @@ Asset Packager is part of [Slippery](https://github.com/plexus/slippery), a tool
 ## Command line usage
 
 ```
-asset_packager file.html target.html
-asset_packager http://example.org/file.html target.html
+asset_packer file.html target.html
+asset_packer http://example.org/file.html target.html
 ```
 
 This will create `target.html`, and a directory `target_assets` containing all the assets.
@@ -31,7 +31,7 @@ Asset Packager is at its core a Hexp transformation, it transform one HTML DOM t
 
 ```ruby
 doc = Hexp.parse(...)
-doc = AssetPackager::Processor::Local.new('http://foo/bar', '/tmp/assets', '/tmp/result.html').call(doc)
+doc = AssetPacker::Processor::Local.new('http://foo/bar', '/tmp/assets', '/tmp/result.html').call(doc)
 File.write('/tmp/result.html', doc.to_html)
 ```
 

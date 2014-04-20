@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    asset_packager (0.1.0)
+    asset_packer (0.1.0)
       hexp (~> 0.3.3)
       mime-types (~> 2.2)
 
@@ -89,7 +89,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  asset_packager!
+  asset_packer!
   mutant-rspec (~> 0.5.10)
   rake (~> 10.2)
   rspec (~> 2.14)

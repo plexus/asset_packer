@@ -3,7 +3,7 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'tmpdir'
 require 'fileutils'
 
-require 'asset_packager'
+require 'asset_packer'
 require_relative 'shared'
 
 module FixtureHelpers
@@ -12,7 +12,7 @@ module FixtureHelpers
 
     let(:html_file)       { html_file }
     let(:assets)          { assets }
-    let(:fixture_dir)     { AssetPackager::ROOT.join('spec/fixtures') }
+    let(:fixture_dir)     { AssetPacker::ROOT.join('spec/fixtures') }
     let(:src_dir)         { Pathname(Dir.mktmpdir()) }
     let(:dst_dir)         { Pathname(Dir.mktmpdir()) }
     let(:source_uri)      { src_dir.join(html_file) }

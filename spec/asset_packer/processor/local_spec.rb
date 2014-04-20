@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AssetPackager::Processor::Local do
+describe AssetPacker::Processor::Local do
   with_fixture 'index.html', ['section.css']
 
   describe '#save_asset' do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AssetPackager::Processor::Local::Script do
+describe AssetPacker::Processor::Local::Script do
   with_fixture 'has_script.html', 'script.js' => 'scripts/script.js'
   let(:doc) { Hexp.parse(source_uri.read) }
 

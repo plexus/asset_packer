@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AssetPackager::Processor::Local::Stylesheet, '#call' do
+describe AssetPacker::Processor::Local::Stylesheet, '#call' do
   with_fixture 'has_stylesheet.html', 'style.css' => 'assets/style.css'
   let(:doc) { Hexp.parse(source_uri.read) }
 

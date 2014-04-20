@@ -1,4 +1,4 @@
-module AssetPackager
+module AssetPacker
   class Processor
     attr_reader :source_uri, :asset_dir, :destination
 
