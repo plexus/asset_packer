@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    asset_packager (0.0.0)
+    asset_packager (0.1.0)
       hexp (~> 0.3.3)
       mime-types (~> 2.2)
 
