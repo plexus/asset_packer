@@ -16,10 +16,11 @@ module AssetPackager
       end
     end
 
-    attr_reader :infile, :outfile, :standalone
+    attr_reader :infile, :outfile
 
-    def initialize(infile, outfile, standalone)
-      @infile, @outfile, @standalone = infile, outfile, standalone
+    def initialize(infile, outfile)
+      @infile  = infile
+      @outfile = Pathname(outfile).expand_path
     end
 
     def self.run(argv)
@@ -34,14 +35,9 @@ module AssetPackager
     end
 
     def self.create_from_args(argv)
-      argv = argv.dup
-      standalone = false
-
       opts = OptionParser.new do |opts|
         opts.banner = "Usage: asset_packager [options] input_file.html output_file.html"
-        opts.on('--standalone', 'Include all assets inline') do |d|
-          standalone = true
-        end.on('--version', 'Print asset_packagers version') do |name|
+        opts.on('--version', 'Print asset_packagers version') do |name|
           raise ExitEarly, "asset_packager-#{AssetPackager::VERSION}"
         end.on('--help', 'Display help on command line usage') do
           raise ExitEarly, opts
@@ -54,10 +50,14 @@ module AssetPackager
         raise ExitEarly.new(opts, EXIT_FAILURE)
       end
 
-      new(*argv, standalone)
+      new(*argv)
     end
 
     def run
+      asset_dir = outfile.dirname.join("#{outfile.basename(outfile.extname)}_assets")
+      local     = Processor::Local.new(infile, asset_dir, outfile)
+      doc = Hexp.parse(local.retrieve_asset(infile))
+      File.write(outfile, local.(doc).to_html)
     end
 
   end

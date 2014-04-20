@@ -3,11 +3,26 @@ require 'spec_helper'
 describe AssetPackager::Processor do
   with_fixture 'index.html', ['section.css']
 
-  let(:fixture_pathname) { directory.join 'section.css' }
-  subject(:processor)    { described_class.new(source_path) }
+  let(:fixture_pathname) { src_dir.join 'section.css' }
 
-  its(:name)      { should eq 'index' }
-  its(:directory) { should eq directory }
+  its(:source_uri) { should eq URI("file://#{source_uri}") }
+
+  describe '#initialize' do
+    let(:subject)     { described_class.new('/source/file.html', '/asset_dir', '/dest.html') }
+    its(:source_uri)  { should eq URI('file:///source/file.html') }
+    its(:asset_dir)   { should eq Pathname('/asset_dir') }
+    its(:destination) { should eq Pathname('/dest.html') }
+
+    context 'with absolute URI' do
+      let(:subject)     { described_class.new('http://source/file.html', '/asset_dir', '/dest.html') }
+      its(:source_uri)  { should eq URI('http://source/file.html') }
+    end
+
+    context 'with a relative file name' do
+      let(:subject)     { described_class.new('foo/bar.html', '/asset_dir', 'dest.html') }
+      its(:source_uri)  { should eq URI("file://#{AssetPackager::ROOT.join('foo/bar.html')}") }
+    end
+  end
 
   describe '#retrieve_asset' do
     subject(:asset) { processor.retrieve_asset(uri) }
@@ -42,7 +57,6 @@ describe AssetPackager::Processor do
 
     include_examples 'remote URIs', 'http://foo.bar/baz'
     include_examples 'remote URIs', 'https://foo.bar/baz'
-    include_examples 'remote URIs', '//foo.bar/baz'
 
     describe 'with an unrecognized protocol' do
       let(:uri) { 'ftp://example.com' }

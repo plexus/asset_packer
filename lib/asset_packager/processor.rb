@@ -1,26 +1,26 @@
 module AssetPackager
   class Processor
-    attr_reader :source_path
+    attr_reader :source_uri, :asset_dir, :destination
 
-    def initialize(source_path)
-      @source_path = source_path
-    end
-
-    def name
-      source_path.basename(source_path.extname).to_s
-    end
-
-    def directory
-      source_path.dirname
+    # source_uri: location of the original document, used to retrieve relative URI's
+    # asset_dir: location where assets will be stored
+    # destination: file that will be generated, used to create relative URI's from
+    def initialize(source_uri, asset_dir, destination)
+      @source_uri  = URI(source_uri)
+      if @source_uri.relative?
+        @source_uri  = URI("file://#{Pathname(source_uri).expand_path}")
+      end
+      @asset_dir   = Pathname(asset_dir)
+      @destination = Pathname(destination)
     end
 
     def retrieve_asset(uri)
-      uri = URI(uri)
+      uri = URI.join(source_uri, uri)
       case
-      when %w[http https].include?(uri.scheme) || uri.scheme.nil? && uri.host
+      when %w[http https].include?(uri.scheme)
         Net::HTTP.get(uri)
-      when uri.scheme.nil? || uri.scheme == 'file'
-        File.read(directory.join(uri.path))
+      when uri.scheme.eql?('file')
+        File.read(uri.path)
       end
     end
 

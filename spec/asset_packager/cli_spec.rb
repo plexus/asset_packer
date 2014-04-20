@@ -57,19 +57,7 @@ describe AssetPackager::CLI do
     let(:argv) { %w[file1 file2] }
 
     its(:infile) { should eq 'file1' }
-    its(:outfile) { should eq 'file2' }
-    its(:standalone) { should eq false }
-
-    context 'given the --standalone flag' do
-      let(:argv) { %w[ --standalone file1 file2 ] }
-      its(:standalone) { should eq true }
-
-      it 'should not alter ARGV' do
-        orig_argv = argv.dup
-        cli
-        expect(argv).to eq orig_argv
-      end
-    end
+    its(:outfile) { should eq Pathname('file2').expand_path }
 
     context 'given --help' do
       let(:argv) { %w[ --help ] }
@@ -105,6 +93,28 @@ describe AssetPackager::CLI do
     include_examples 'illegal arguments', %w[]
     include_examples 'illegal arguments', %w[only_one_filename]
     include_examples 'illegal arguments', %w[three file names]
+  end
+
+  describe '#run' do
+    with_fixture 'has_all.html',
+      'dummy.png' => 'images/dummy.png',
+      'script.js' => 'scripts/script.js',
+      'style.css' => 'assets/style.css'
+
+    subject(:cli) { described_class.new(source_uri.to_s, destination) }
+
+    it 'should create the outfile' do
+      cli.run
+      expect(destination).to exist
+    end
+
+    it 'should have rewritten all the assets' do
+      cli.run
+      doc = Nokogiri(destination.read)
+      expect(doc.css('script[src="has_all_assets/7d2ac8ea2ea878a64bb26221bc358d76.js"]').count).to eq 1
+      expect(doc.css('img[src="has_all_assets/900150983cd24fb0d6963f7d28e17f72.png"]').count).to eq 1
+      expect(doc.css('link[href="has_all_assets/383296b94213ea174c8bee073ea59733.css"]').count).to eq 1
+    end
 
   end
 end

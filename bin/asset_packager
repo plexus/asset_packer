@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'asset_packager'
-AssetPackager::CLI.run(ARGV)
+Kernel.exit AssetPackager::CLI.run(ARGV)
