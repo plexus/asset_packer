@@ -9,11 +9,14 @@ module AssetPacker
       end
 
       def save_asset(uri, extension)
+        print "Saving #{uri} ... "
         asset_dir.mkdir unless asset_dir.directory?
         content = retrieve_asset(uri)
+        content = yield(content) if block_given?
         digest  = Digest::MD5.hexdigest(content)
         target  = asset_dir.join(digest + '.' + extension)
         File.write(target, content) unless target.exist?
+        puts "done"
         target.relative_path_from(destination.dirname)
       end
 
@@ -38,7 +41,15 @@ module AssetPacker
       class Stylesheet < self
         def call(doc)
           doc.replace('link[rel=stylesheet]') do |link|
-            link.attr(:href, save_asset(link[:href], 'css'))
+            href = save_asset(link[:href], 'css') do |content|
+              content.gsub(/url\("?(.*?)"?\)/) do
+                rel_uri    = $1
+                abs_uri    = absolute_uri(rel_uri)
+                extension = Pathname(abs_uri.path).extname.sub(/^\./, '')
+                ['url(', save_asset(abs_uri, extension), ')'].join
+              end
+            end
+            link.attr(:href, href)
           end
         end
       end

@@ -22,7 +22,6 @@ spec = Gem::Specification.load(File.expand_path('../asset_packer.gemspec', __FIL
 gem = Gem::PackageTask.new(spec)
 gem.define
 
-
 desc "Push gem to rubygems.org"
 task :push => :gem do
   sh "git tag v#{AssetPacker::VERSION}"

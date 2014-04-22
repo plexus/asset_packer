@@ -15,13 +15,17 @@ module AssetPacker
     end
 
     def retrieve_asset(uri)
-      uri = URI.join(source_uri, uri)
+      uri = absolute_uri(uri)
       case
       when %w[http https].include?(uri.scheme)
         Net::HTTP.get(uri)
       when uri.scheme.eql?('file')
         File.read(uri.path)
       end
+    end
+
+    def absolute_uri(relative_uri)
+      URI.join(source_uri, relative_uri)
     end
 
   end
