@@ -1,6 +1,7 @@
 require 'pathname'
 require 'net/http'
 require 'base64'
+require 'digest'
 require 'optparse'
 
 require 'hexp'
