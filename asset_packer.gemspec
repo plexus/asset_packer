@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.bindir           = 'bin'
   gem.executables      << 'asset_packer'
 
-  gem.add_runtime_dependency 'hexp'       , '~> 0.3.3'
+  gem.add_runtime_dependency 'hexp'       , '~> 0.4.0.beta1'
   gem.add_runtime_dependency 'mime-types' , '~> 2.2'
 
   gem.add_development_dependency 'rake'         , '~> 10.2'
