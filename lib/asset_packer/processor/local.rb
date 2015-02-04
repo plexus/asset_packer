@@ -40,14 +40,16 @@ module AssetPacker
       class Stylesheet < self
         def call(doc)
           doc.replace('link[rel=stylesheet]') do |link|
-            link.attr(:href, save_asset(link[:href], 'css', &method(:extract_css_links)))
+            link.attr(:href, save_asset(link[:href], 'css', &extract_css_links(link[:href])))
           end
         end
 
-        def extract_css_links(content)
-          content.gsub(/url\(['"]?([^\)'"]*)['"]?\)/) {
-            "url(../#{ save_asset($1, File.extname($1)[1..-1]) })"
-          }
+        def extract_css_links(base_url)
+          ->(content) do
+            content.gsub(/url\(['"]?([^\)'"]*)['"]?\)/) {
+              "url(../#{ save_asset(URI.join(full_source_uri, base_url, $1), File.extname($1)[1..-1]) })"
+            }
+          end
         end
       end
     end
