@@ -55,7 +55,7 @@ module AssetPacker
 
     def run
       asset_dir = outfile.dirname.join("#{outfile.basename(outfile.extname)}_assets")
-      local     = Processor::Local.new(infile, asset_dir, outfile)
+      local = Processor::Local.new(infile, asset_dir, outfile)
       doc = Hexp.parse(local.retrieve_asset(infile))
       File.write(outfile, local.(doc).to_html)
     end

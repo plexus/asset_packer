@@ -5,22 +5,22 @@ describe AssetPacker::Processor do
 
   let(:fixture_pathname) { src_dir.join 'section.css' }
 
-  its(:source_uri) { should eq URI("file://#{source_uri}") }
+  its(:full_source_uri) { should eq URI("file://#{source_uri}") }
 
   describe '#initialize' do
-    let(:subject)     { described_class.new('/source/file.html', '/asset_dir', '/dest.html') }
-    its(:source_uri)  { should eq URI('file:///source/file.html') }
+    let(:subject)     { described_class.new('/tmp/source/file.html', '/asset_dir', '/dest.html') }
+    its(:full_source_uri)  { should eq URI('file:///tmp/source/file.html') }
     its(:asset_dir)   { should eq Pathname('/asset_dir') }
     its(:destination) { should eq Pathname('/dest.html') }
 
     context 'with absolute URI' do
       let(:subject)     { described_class.new('http://source/file.html', '/asset_dir', '/dest.html') }
-      its(:source_uri)  { should eq URI('http://source/file.html') }
+      its(:full_source_uri)  { should eq URI('http://source/file.html') }
     end
 
     context 'with a relative file name' do
       let(:subject)     { described_class.new('foo/bar.html', '/asset_dir', 'dest.html') }
-      its(:source_uri)  { should eq URI("file://#{AssetPacker::ROOT.join('foo/bar.html')}") }
+      its(:full_source_uri)  { should eq URI("file://#{AssetPacker::ROOT.join('foo/bar.html')}") }
     end
   end
 
@@ -63,7 +63,7 @@ describe AssetPacker::Processor do
 
       it 'should return nil' do
         expect(Net::HTTP).to_not receive(:get)
-        expect(asset).to be_nil
+        expect(asset).to eql ""
       end
     end
   end

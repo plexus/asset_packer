@@ -12,7 +12,7 @@ module AssetPacker
         source_file = Pathname(source_uri).expand_path
         @full_source_uri = URI("file://#{source_file}")
         @cache_dir  = source_file.dirname.join('.asset_cache')
-        @cache_dir.mkdir unless @cache_dir.exist?
+        FileUtils.mkdir_p @cache_dir unless @cache_dir.exist?
       end
       @asset_dir   = Pathname(asset_dir)
       @destination = Pathname(destination)

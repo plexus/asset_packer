@@ -6,6 +6,8 @@ require 'fileutils'
 require 'asset_packer'
 require_relative 'shared'
 
+require 'rspec/its'
+
 module FixtureHelpers
   def with_fixture(html_file, assets = [])
     subject(:processor) { described_class.new(source_uri.to_s, dst_dir.to_s, destination.to_s) }
