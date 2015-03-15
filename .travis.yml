@@ -1,8 +1,6 @@
 language: ruby
 
 rvm:
-  - 1.9.3
-  - 2.0
   - 2.1
   - 2.2
   - jruby
@@ -15,6 +13,7 @@ sudo: false
 matrix:
   allow_failures:
     - rvm: ruby-head
+    - rvm: jruby
     - rvm: jruby-head
     - rvm: rbx
 script: bundle exec rspec
