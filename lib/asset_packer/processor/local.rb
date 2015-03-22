@@ -48,7 +48,6 @@ module AssetPacker
           ->(content) do
             content.gsub(/url\(['"]?([^\)'"]*)['"]?\)/) {
               uri = URI.join(full_source_uri, base_url, $1)
-              puts uri
               ext = File.extname($1)[1..-1]
               # TODO check for media type, not URL
               # using regex instead of checking ext because
