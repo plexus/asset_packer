@@ -47,7 +47,14 @@ module AssetPacker
         def extract_css_links(base_url)
           ->(content) do
             content.gsub(/url\(['"]?([^\)'"]*)['"]?\)/) {
-              "url(../#{ save_asset(URI.join(full_source_uri, base_url, $1), File.extname($1)[1..-1]) })"
+              uri = URI.join(full_source_uri, base_url, $1)
+              puts uri
+              ext = File.extname($1)[1..-1]
+              # TODO check for media type, not URL
+              # using regex instead of checking ext because
+              # google font files don't work otherwise
+              block = extract_css_links(uri) if uri.to_s =~ /css/
+              "url(../#{ save_asset(uri, ext, &block) })"
             }
           end
         end
