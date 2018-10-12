@@ -40,7 +40,25 @@ module AssetPacker
       class Stylesheet < self
         def call(doc)
           doc.replace('link[rel=stylesheet]') do |link|
-            link.attr(:href, save_asset(link[:href], 'css', &extract_css_links(link[:href])))
+            link.attr(:href, save_asset(link[:href], 'css', &extract_references(link[:href])))
+          end
+        end
+
+        def extract_references(base_url)
+          ->(content) do
+            content = extract_imports(base_url)[content]
+            extract_css_links(base_url)[content]
+          end
+        end
+
+        def extract_imports(base_url)
+          ->(content) do
+            content.gsub(/@import\s+['"]([^'"]+)['"]\s*(\w*);/) {
+              path, type = $1, $2
+              uri = URI.join(full_source_uri, base_url, path)
+              block = extract_references(uri)
+              "@import '../#{ save_asset(uri, 'css', &block) }' #{type};"
+            }
           end
         end
 
@@ -52,7 +70,7 @@ module AssetPacker
               # TODO check for media type, not URL
               # using regex instead of checking ext because
               # google font files don't work otherwise
-              block = extract_css_links(uri) if uri.to_s =~ /css/
+              block = extract_references(uri) if uri.to_s =~ /css/
               "url(../#{ save_asset(uri, ext, &block) })"
             }
           end
